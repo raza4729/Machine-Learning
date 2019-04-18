@@ -7,14 +7,19 @@ from search.forms import HomeForm
 
 # Create your views here.
 
-def index(request):
-    if request.method == 'GET':
-        trends_input_form = HomeForm(request.GET)
-        inputstring = request.GET.get('post')
-        print("------------------", str(inputstring))
-        data = wikipedia.summary("google")
+def searchmeth(request, query = None):
+
+    if request.method == 'POST':
+        name = request.POST.get('input_text', '')
+    #     trends_input_form = HomeForm.objects.get(query=query)
+    #     inputstring = request.GET.get('post')
+    #     print('--------------', inputstring)
+        data = wikipedia.summary(name)
         my_dict = {'insert_me': data}
         return render(request, "search/index.html", context = my_dict)
     else:
-        my_dict = {'inser': 'Hello'}
-        return render(request,'search/index.html', context=my_dict)
+        return HttpResponse('Sorry!')
+
+def index(request):
+    my_dict = {'insert_in': ''}
+    return render(request, 'search/index.html', context=my_dict)

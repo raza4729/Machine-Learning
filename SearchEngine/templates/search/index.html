@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title>Blind Search Aid</title>
+
     <style>
       .main{
             padding-left: 430px;
-            <!--padding-top: 350px;-->
+            /*padding-top: 350px;*/
       }
       input{
             border: none;
@@ -43,21 +45,51 @@
             box-shadow: 0 1px 1px rgba(0,0,0,0.1);
             color: #222;
           }
+      #sound {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            /*padding: 15px 60px;*/
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            padding-left: 430px;
+            margin-left: 430px;
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px;
+            height: 40px;
+            width: 500px;
+          }
     </style>
+    <!-- Latest compiled and minified CSS -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+    <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
+    <script>
+      function speak(){
+          responsiveVoice.speak("{{insert_me}}");
+          //var myVar = "{{ myVar }}"
+          //window.alert("{{insert_me}}")
+      }
+
+    </script>
+
   </head>
   <body>
     <div class="main">
-      <form name="myform" action="." method="get">
+      <form name="myform" action="{% url 'searchmeth' %}" method="post">
         <input type="text" name="input_text" id="abc" placeholder="Search here."/>
         <input type="submit" value="Go">
         <br>
-        <div>
-          {% csrf_token %}
-          {{ form.as_p }}
-          {{insert_me}}
-        </div>
+        {% csrf_token %}
+        {{ form.as_p }}
       </form>
     </div>
+    <div >
 
+      <div>{{insert_me}}</div>
+      <input onclick='speak();' id ="sound" type='button' value='🔊 Play' />
+      {{insert_in}}
+    </div>
   </body>
 </html>

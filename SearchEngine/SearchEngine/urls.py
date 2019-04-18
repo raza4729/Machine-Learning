@@ -19,6 +19,6 @@ from django.conf.urls import include, url
 from search import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^search/', include('search.urls')),
+    url(r'', include('search.urls')),
     url(r'^$', views.index, name='index'),
 ]
