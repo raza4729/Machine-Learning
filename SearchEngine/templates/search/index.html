@@ -3,29 +3,51 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
     <title>Blind Search Aid</title>
 
     <style>
-      .main{
-            padding-left: 430px;
-            /*padding-top: 350px;*/
+      body {
+        font-family: Arial;
       }
-      input{
-            border: none;
-            padding: 10px;
-            margin: 10px;
-            height: 20px;
-            width: 500px;
-            border:1px solid #eaeaea;
-            outline:none;
 
-          }
-      input:hover{
-            border-color: #a0a0a0 #b9b9b9 #b9b9b9 #b9b9b9;
-          }
-      input:focus{
-            border-color:#4d90fe;
-          }
+      * {
+        box-sizing: border-box;
+      }
+
+      form.example input[type=text] {
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid grey;
+        float: left;
+        width: 80%;
+        background: #f1f1f1;
+      }
+
+      form.example button {
+        float: left;
+        width: 20%;
+        padding: 10px;
+        background: #2196F3;
+        color: white;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-left: none;
+        cursor: pointer;
+      }
+
+      form.example button:hover {
+        background: #0b7dda;
+      }
+
+      form.example::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
       input[type="submit"] {
             border-radius: 2px;
             background: #f2f2f2;
@@ -38,6 +60,7 @@
             padding: 0 16px;
             height:36px;
           }
+
       input[type="submit"]:hover {
             box-shadow: 0 1px 1px rgba(0,0,0,0.1);
             background: #f8f8f8;
@@ -62,34 +85,112 @@
             width: 500px;
           }
     </style>
-    <!-- Latest compiled and minified CSS -->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+
     <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
+
+      function _display_categories() {
+        var i; var count = 0;
+        var data = "{{insert_me}}";
+        data = data.split(', &#39;');
+        document.getElementById("container").innerHTML+='<div class="row" id="row"></div>';
+        for(i = 0; i < data.length; i++){
+          count = count + 1;
+          if(count > 4){
+            var row = document.getElementById("container").innerHTML+='<div class="row" ></div>';
+            row.setAttribute("id", "row" + i);
+          }
+          document.getElementById("row").innerHTML+='<div class="col-sm-3" id="column"></div>';
+          //column.setAttribute("id", "column");
+          var column = document.getElementById("column");
+
+          var div = document.createElement('div');
+          div.setAttribute("class", "card");
+          div.style.width = "18rem";
+          column.appendChild(div);
+
+          var card_body = document.createElement("div");
+          card_body.setAttribute("class", "card-body");
+          div.appendChild(card_body);
+
+          var card_title = document.createElement("h5");
+          card_title.setAttribute("class","card-title");
+          card_body.appendChild(card_title);
+
+          var card_subtitle = document.createElement("h6");
+          card_title.setAttribute("class","card-subtitle mb-2 text-muted");
+          card_body.appendChild(card_subtitle);
+
+          var card_text = document.createElement("p");
+          card_text.setAttribute("class","card-text");
+          card_body.appendChild(card_text);
+
+
+          card_title.textContent = "Card";
+          card_subtitle.textContent = "Card subtitle";
+          card_text.textContent = data[i];
+          card_text.style.alignContent;
+
+
+
+          //document.getElementById("row").innerHTML+='</div>';
+          document.getElementById("row").appendChild(column);
+        }
+
+      }
       function speak(){
-          responsiveVoice.speak("{{insert_me}}");
-          //var myVar = "{{ myVar }}"
-          //window.alert("{{insert_me}}")
+          //responsiveVoice.speak("{{insert_me}}");
+      }
+
+      function renderData() {
+        var i;
+        //var engine_data = "{{insert_me}}";
+        //engine_data = engine_data.split(',');
+
+        //document.getElementById('data').innerHTML = feed;
       }
 
     </script>
 
   </head>
   <body>
-    <div class="main">
-      <form name="myform" action="{% url 'searchmeth' %}" method="post">
-        <input type="text" name="input_text" id="abc" placeholder="Search here."/>
-        <input type="submit" value="Go">
-        <br>
-        {% csrf_token %}
-        {{ form.as_p }}
-      </form>
-    </div>
-    <div >
+<!--    <div id="main">-->
+<!--      <form name="myform" action="{% url 'searchmeth' %}" method="post">-->
+<!--        <input type="text" name="input_text" id="abc" placeholder="Search here."/>-->
+<!--        <input type="submit" value="Go">-->
+<!--        <br>-->
+<!--        {% csrf_token %}-->
+<!--        {{insert_me}}-->
+<!--      </form>-->
+<!--    </div>-->
 
-      <div>{{insert_me}}</div>
-      <input onclick='speak();' id ="sound" type='button' value='🔊 Play' />
-      {{insert_in}}
+    <form class="example" action="{% url 'searchmeth' %}" method="post" style="margin:auto;max-width:800px; padding-top:30px">
+      <input type="text" name="input_text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+<!--      <button type="button" class="btn btn-danger" onclick="speak();" >Play</button>-->
+<!--      <input onclick='speak();' class="fa fa-search" id ="sound" type='button' value='🔊 Play' />-->
+      {% csrf_token %}
+    </form>
+    <br/><br/>
+
+<!--    <div class="card" style="width: 18rem;">-->
+<!--      <div class="card-body">-->
+<!--        <h5 class="card-title">Card title</h5>-->
+<!--        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+<!--        <p class="card-text">Some quick example text to build on the card.</p>-->
+<!--        <a href="#" class="card-link">Card link</a>-->
+<!--        <a href="#" class="card-link">Another link</a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <blockquote class="blockquote">-->
+<!--      <span id="data"> <script>_display_categories</script></span>-->
+<!--    </blockquote>-->
+
+    <div class="container" id="container">
+      <script>_display_categories();</script>
     </div>
+
   </body>
 </html>
